@@ -1,0 +1,3 @@
+﻿  Dev3.cpp
+C:\Users\Tony\Desktop\Cours hiver 2022\INFO 1102 Principes de programmation 2\Devoirs\Dev3\Dev3.cpp(102,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Dev3.vcxproj -> C:\Users\Tony\Desktop\Cours hiver 2022\INFO 1102 Principes de programmation 2\Devoirs\Dev3\Debug\Dev3.exe

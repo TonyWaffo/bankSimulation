@@ -1,0 +1,314 @@
+// Dev3.cpp : 
+//
+
+#include <iostream>
+#include<time.h>
+using namespace std;
+
+template <typename unType>
+struct unNoeud
+{
+    unType       valeur;
+	unNoeud<unType>* suivant;
+}; 
+
+struct unClient
+{
+	long tempsArrivee;
+	long dureeTransaction;
+};
+template <class unType>
+class uneFile
+{
+private:
+    unNoeud<unType>* Tete;
+    unNoeud<unType>* Queue;
+
+public:
+
+     uneFile()
+    {
+        cout << "Constructeur appele." << endl;
+
+        Tete = NULL;
+        Queue = NULL;
+    }
+
+
+    ~uneFile()
+    {
+        cout << "Destructeur appele." << endl;
+        unType nombre;
+        while (!estVide())
+            enlever(nombre);
+    }
+
+    bool estVide()
+    {
+        return NULL == Tete;
+    }
+
+
+    void inserer(unType nombre)
+    {
+        unNoeud<unType>* temp = new unNoeud<unType>;
+        temp->valeur = nombre;
+        if (estVide()) {
+            Tete = temp;
+        }
+        else {
+            Queue->suivant = temp;
+        }
+        Queue = temp;
+        temp->suivant = NULL;
+    }
+
+
+    void enlever(unType& nombre)
+    {
+        unNoeud<unType>* temp = Tete;
+        nombre = temp->valeur;
+        Tete = Tete->suivant;
+        if (estVide())
+            Queue = NULL;
+        delete temp;
+    }
+
+
+    void afficher()
+    {
+        if (estVide())
+        {
+            cout << "La file est vide." << endl;
+            return;
+        }
+        cout << "File : ";
+        unNoeud<unType>* curseur = Tete;
+        while (curseur != NULL)
+        {
+            cout << curseur->valeur << " ";
+            curseur = curseur->suivant;
+        }
+        cout << endl;
+    }
+
+};
+
+
+bool avonsNousUnClient(double probabilite) {
+    double alea = rand()/double(32768);
+    return alea <= probabilite;
+}
+
+long genererTempsTransaction(long dureeMinimum, long dureeMaximum) {
+    dureeMaximum++;
+    dureeMaximum -= dureeMinimum;
+    long duree = dureeMinimum + (rand() % dureeMaximum) ;
+    return  duree;
+}
+
+
+
+int main()
+{
+    srand(time(0));
+
+    uneFile<double>  file; // Au démarrage, la file est vide.
+
+    unClient guichet[10] = { 0 };
+
+    long horloge=0, tempsFin=200;
+
+    while (horloge <= tempsFin || !file.estVide())
+    {
+        cout << endl << "Entrer une probabilite, entre 0.0 et 1.0 : ";
+        double probabilite;
+        long dureeMinimum, dureeMaximum;
+        cin >> probabilite;
+
+        if (avonsNousUnClient(probabilite)) {
+            cout << "Entrer la dureeMin et la dureeMax de la transaction : ";
+            cin >> dureeMinimum >> dureeMaximum;
+
+            unClient customer;
+            customer.tempsArrivee = horloge;
+            customer.dureeTransaction = genererTempsTransaction(dureeMinimum, dureeMaximum);
+            
+        }
+        horloge++;
+    }
+    
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Dev3.cpp : 
+//
+
+#include <iostream>
+#include<time.h>
+using namespace std;
+
+template <typename unType>
+struct unNoeud
+{
+   // unType       valeur;
+    unType arrivee;
+    unType transaction;
+	unNoeud<unType>* suivant;
+}; 
+
+struct unClient
+{
+	long tempsArrivee;
+	long dureeTransaction;
+};
+template <class unType>
+class uneFile
+{
+private:
+    unNoeud<unType>* Tete;
+    unNoeud<unType>* Queue;
+
+public:
+
+     uneFile()
+    {
+        cout << "Constructeur appele." << endl;
+
+        Tete = NULL;
+        Queue = NULL;
+    }
+
+
+    ~uneFile()
+    {
+        cout << "Destructeur appele." << endl;
+        unType tempsArrivee;
+        unType dureeTransaction;
+        while (!estVide())
+            enlever(unType & tempsArrivee, unType & dureeTransaction);
+    }
+
+    bool estVide()
+    {
+        return NULL == Tete;
+    }
+
+
+    void inserer(unType tempsArrivee, unType dureeTransaction)
+    {
+        unNoeud<unType>* temp = new unNoeud<unType>;
+        temp->arrivee = tempsArrivee;
+        temp->transaction = dureeTransaction;
+        if (estVide()) {
+            Tete = temp;
+        }
+        else {
+            Queue->suivant = temp;
+        }
+        Queue = temp;
+        temp->suivant = NULL;
+    }
+
+
+    void enlever(unType& tempsArrivee, unType& dureeTransaction)
+    {
+        unNoeud<unType>* temp = Tete;
+        tempsArrivee = temp->arrivee;
+        dureeTransaction = temp->transaction;
+        Tete = Tete->suivant;
+        if (estVide())
+            Queue = NULL;
+        delete temp;
+    }
+
+
+    void afficher()
+    {
+        if (estVide())
+        {
+            cout << "La file est vide." << endl;
+            return;
+        }
+        cout << "File : ";
+        unNoeud<unType>* curseur = Tete;
+        while (curseur != NULL)
+        {
+            cout << curseur->arrivee << " ";
+            cout << curseur->transaction << " ";
+            curseur = curseur->suivant;
+        }
+        cout << endl;
+    }
+
+};
+
+
+bool avonsNousUnClient(double probabilite) {
+    double alea = rand()/double(32768);
+    return alea <= probabilite;
+}
+
+long genererTempsTransaction(long dureeMinimum, long dureeMaximum) {
+    dureeMaximum++;
+    dureeMaximum -= dureeMinimum;
+    long duree = dureeMinimum + (rand() % dureeMaximum) ;
+    return  duree;
+}
+
+
+
+int main()
+{
+    srand(time(0));
+
+    uneFile<long>  file; // Au démarrage, la file est vide.
+
+    unClient guichet[10] = { 0 };
+
+    long horloge=0, tempsFin=200;
+
+    while (horloge <= tempsFin || !file.estVide())
+    {
+        cout << endl << "Entrer une probabilite, entre 0.0 et 1.0 : ";
+        double probabilite;
+        long dureeMinimum, dureeMaximum;
+        cin >> probabilite;
+
+        if (avonsNousUnClient(probabilite)) {
+            cout << "Entrer la dureeMin et la dureeMax de la transaction : ";
+            cin >> dureeMinimum >> dureeMaximum;
+
+           /* unClient customer;
+            customer.tempsArrivee = horloge;
+            customer.dureeTransaction = genererTempsTransaction(dureeMinimum, dureeMaximum);
+            cout << typeid(customer.tempsArrivee).name() << endl;*/
+            //file.inserer(customer.tempsArrivee, customer.dureeTransaction);
+        }
+        horloge++;
+    }
+    
+
+	return 0;
+}
+
+
